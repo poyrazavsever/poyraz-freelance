@@ -4,6 +4,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --color-primary: #ffbd59;
+  --color-secondary: #ffd28d;
   --color-light-bg: #ffffff;
   --color-dark-bg: #121212;
   --font-nunito: "Nunito", sans-serif;
