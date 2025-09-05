@@ -11,27 +11,74 @@
   --font-nunito: "Nunito", sans-serif;
 }
 
+/* Dark mode styles */
+html.dark {
+  background-color: var(--color-dark-bg);
+  color: #ffffff;
+}
+
+html.dark body {
+  background-color: var(--color-dark-bg);
+}
+
 @layer utilities {
   @keyframes overlayOut {
-    0%, 80% { opacity: 1; }
-    100%    { opacity: 0; }
+    0%,
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
   @keyframes flare {
-    0%   { opacity: 0; transform: scale(0.8); }
-    35%  { opacity: 0.9; transform: scale(1.1); }
-    65%  { opacity: 0.5; transform: scale(1.5); }
-    100% { opacity: 0; transform: scale(1.7); }
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    35% {
+      opacity: 0.9;
+      transform: scale(1.1);
+    }
+    65% {
+      opacity: 0.5;
+      transform: scale(1.5);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.7);
+    }
   }
   @keyframes textIn {
-    0%   { opacity: 0; filter: blur(10px); transform: translateY(8px) scale(0.99); }
-    40%  { opacity: 1; filter: blur(0);    transform: translateY(0)   scale(1.00); }
-    80%  { opacity: 1; }
-    100% { opacity: 0; filter: blur(4px);  transform: translateY(-4px) scale(0.995); }
+    0% {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(8px) scale(0.99);
+    }
+    40% {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0) scale(1);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      filter: blur(4px);
+      transform: translateY(-4px) scale(0.995);
+    }
   }
 
-  .animate-overlayOut { animation: overlayOut var(--intro-dur, 3000ms) ease forwards; }
-  .animate-flare      { animation: flare      var(--intro-dur, 3000ms) ease forwards; }
-  .animate-textIn     { animation: textIn     var(--intro-dur, 3000ms) ease forwards; }
+  .animate-overlayOut {
+    animation: overlayOut var(--intro-dur, 3000ms) ease forwards;
+  }
+  .animate-flare {
+    animation: flare var(--intro-dur, 3000ms) ease forwards;
+  }
+  .animate-textIn {
+    animation: textIn var(--intro-dur, 3000ms) ease forwards;
+  }
 }
 
 /* Selection styling for dark/light mode */
@@ -147,7 +194,6 @@ body {
   color: #aaa;
 }
 
-
 /* Inline code */
 .mdCustom :not(pre) > code {
   background: #f3f4f6;
@@ -186,7 +232,6 @@ body {
   font-size: inherit;
   font-family: inherit;
 }
-
 
 .mdCustom table {
   width: 100%;
