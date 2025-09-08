@@ -12,6 +12,10 @@ const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [theme, setTheme] = useState<string>("light");
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(
+    null
+  );
 
   // Scroll listener
   useEffect(() => {
@@ -85,6 +89,24 @@ const Navbar = () => {
 
   const closeDropdown = () => {
     setActiveDropdown(null);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setMobileSubmenuOpen(null);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+    setMobileSubmenuOpen(null);
+  };
+
+  const openMobileSubmenu = (menuLabel: string) => {
+    setMobileSubmenuOpen(menuLabel);
+  };
+
+  const closeMobileSubmenu = () => {
+    setMobileSubmenuOpen(null);
   };
 
   const dropdownVariants = {
@@ -342,8 +364,21 @@ const Navbar = () => {
       >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between h-14">
-            {/* Left Side - Navigation Links */}
-            <div className="flex items-center space-x-8">
+            {/* Mobile Logo - Only visible on mobile */}
+            <div className="md:hidden">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/logos/logo250.png"
+                  alt="Logo"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                />
+              </Link>
+            </div>
+
+            {/* Left Side - Navigation Links - Hidden on mobile */}
+            <div className="hidden md:flex items-center space-x-8">
               {menuItems.map((item) => (
                 <div key={item.label} className="relative">
                   {item.hasDropdown ? (
@@ -371,8 +406,8 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Right Side - Social Links and Theme Switcher */}
-            <div className="flex items-center space-x-4">
+            {/* Right Side - Social Links and Theme Switcher - Hidden on mobile */}
+            <div className="hidden md:flex items-center space-x-4">
               {/* Social Links Dropdown */}
               <div className="relative">
                 <button
@@ -407,16 +442,30 @@ const Navbar = () => {
                 </button>
               </div>
             </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={toggleMobileMenu}
+                className="flex items-center justify-center w-10 h-10 text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors duration-200"
+                aria-label="Toggle mobile menu"
+              >
+                <Icon
+                  icon={isMobileMenuOpen ? "lucide:x" : "lucide:menu"}
+                  className="w-6 h-6"
+                />
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Dropdown Menus */}
+        {/* Desktop Dropdown Menus */}
         <AnimatePresence>
           {activeDropdown && (
             <>
               {/* Backdrop */}
               <div
-                className="fixed inset-0 bg-transparent z-30"
+                className="fixed inset-0 bg-transparent z-30 hidden md:block"
                 onClick={closeDropdown}
               />
 
@@ -427,7 +476,7 @@ const Navbar = () => {
                 exit="hidden"
                 variants={dropdownVariants}
                 transition={{ duration: 0.3 }}
-                className="absolute top-full left-0 w-screen bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 z-40 transition-colors duration-200"
+                className="absolute top-full left-0 w-screen bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 z-40 transition-colors duration-200 hidden md:block"
               >
                 <div className="container mx-auto px-4 py-8">
                   {activeDropdown === "theme" ? (
@@ -559,6 +608,227 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed inset-0 bg-white dark:bg-dark-bg z-50 md:hidden"
+          >
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-700">
+              <Link href="/" onClick={closeMobileMenu}>
+                <Image
+                  src="/logos/logo250.png"
+                  alt="Logo"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                />
+              </Link>
+              <button
+                onClick={closeMobileMenu}
+                className="p-2 text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors duration-200"
+              >
+                <Icon icon="lucide:x" className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Mobile Menu Content */}
+            <div className="flex flex-col h-full">
+              {!mobileSubmenuOpen ? (
+                // Main Menu
+                <div className="flex-1 overflow-y-auto">
+                  <div className="p-6 space-y-6">
+                    {/* Navigation Links */}
+                    <div className="space-y-4">
+                      {menuItems.map((item) => (
+                        <div key={item.label}>
+                          {item.hasDropdown ? (
+                            <button
+                              onClick={() => openMobileSubmenu(item.label)}
+                              className="flex items-center justify-between w-full text-left text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
+                            >
+                              {item.label}
+                              <Icon
+                                icon="lucide:chevron-right"
+                                className="w-5 h-5"
+                              />
+                            </button>
+                          ) : (
+                            <Link
+                              href={item.href}
+                              onClick={closeMobileMenu}
+                              className="block text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
+                            >
+                              {item.label}
+                            </Link>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Theme Switcher */}
+                    <div className="border-t border-neutral-200 dark:border-neutral-700 pt-6">
+                      <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-4">
+                        Theme
+                      </h3>
+                      <div className="grid grid-cols-3 gap-3">
+                        {themeOptions.map((themeOption) => (
+                          <button
+                            key={themeOption.value}
+                            onClick={() => handleThemeChange(themeOption.value)}
+                            className={`flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-200 ${
+                              theme === themeOption.value ||
+                              (themeOption.value === "system" &&
+                                !["light", "dark"].includes(theme))
+                                ? "border-primary bg-primary/5 text-primary"
+                                : "border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400"
+                            }`}
+                          >
+                            <Icon
+                              icon={themeOption.icon}
+                              className="w-6 h-6 mb-2"
+                            />
+                            <span className="text-sm font-medium">
+                              {themeOption.label}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Social Links */}
+                    <div className="border-t border-neutral-200 dark:border-neutral-700 pt-6">
+                      <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-4">
+                        Follow Me
+                      </h3>
+                      <div className="grid grid-cols-3 gap-3">
+                        {socialLinks.slice(0, 6).map((social) => (
+                          <a
+                            key={social.label}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col items-center p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:text-primary hover:border-primary transition-all duration-200"
+                          >
+                            <Icon icon={social.icon} className="w-6 h-6 mb-2" />
+                            <span className="text-xs font-medium">
+                              {social.label}
+                            </span>
+                          </a>
+                        ))}
+                      </div>
+                      {socialLinks.length > 6 && (
+                        <div className="mt-3">
+                          <a
+                            href={socialLinks[6].href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:text-primary hover:border-primary transition-all duration-200"
+                          >
+                            <Icon
+                              icon={socialLinks[6].icon}
+                              className="w-6 h-6 mr-2"
+                            />
+                            <span className="text-sm font-medium">
+                              {socialLinks[6].label}
+                            </span>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // Submenu
+                <div className="flex-1 overflow-y-auto">
+                  <div className="p-6">
+                    {/* Submenu Header */}
+                    <div className="flex items-center mb-6">
+                      <button
+                        onClick={closeMobileSubmenu}
+                        className="mr-4 p-2 -m-2 text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors duration-200"
+                      >
+                        <Icon icon="lucide:arrow-left" className="w-6 h-6" />
+                      </button>
+                      <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
+                        {mobileSubmenuOpen}
+                      </h2>
+                    </div>
+
+                    {/* Submenu Links */}
+                    <div className="space-y-4">
+                      {menuItems
+                        .find((item) => item.label === mobileSubmenuOpen)
+                        ?.dropdownItems?.map((dropdownItem) => (
+                          <div key={dropdownItem.label}>
+                            {dropdownItem.external ? (
+                              <a
+                                href={dropdownItem.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-between text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
+                                onClick={closeMobileMenu}
+                              >
+                                <span>{dropdownItem.label}</span>
+                                <Icon
+                                  icon="lucide:external-link"
+                                  className="w-5 h-5"
+                                />
+                              </a>
+                            ) : (
+                              <Link
+                                href={dropdownItem.href}
+                                onClick={closeMobileMenu}
+                                className="block text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
+                              >
+                                {dropdownItem.label}
+                              </Link>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+
+                    {/* Submenu Cards */}
+                    <div className="mt-8 space-y-4">
+                      {dropdownCards[
+                        mobileSubmenuOpen as keyof typeof dropdownCards
+                      ]?.map((card, index) => (
+                        <div
+                          key={index}
+                          className={`bg-gradient-to-br rounded-lg ${getCardColorClasses(
+                            card.color
+                          )} p-6`}
+                        >
+                          <div className="flex items-center mb-3">
+                            <Icon
+                              icon={card.icon}
+                              className={`w-8 h-8 mr-3 ${
+                                card.color === "yellow" ? "text-yellow-600" : ""
+                              }`}
+                            />
+                            <h4 className="font-semibold text-neutral-800 dark:text-neutral-200">
+                              {card.title}
+                            </h4>
+                          </div>
+                          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                            {card.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Spacer to prevent content from being hidden under navbar */}
       <div
