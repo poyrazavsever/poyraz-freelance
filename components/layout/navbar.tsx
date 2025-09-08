@@ -11,6 +11,18 @@ import Button from "../shared/button";
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [theme, setTheme] = useState<string>("light");
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Theme yönetimi
   useEffect(() => {
@@ -252,57 +264,68 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white dark:bg-dark-bg relative z-50 py-4 transition-colors duration-200">
-      {/* Top Bar */}
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Search Box */}
-          <div className="flex-1 max-w-md">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full pl-10 pr-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-              />
-              <Icon
-                icon="lucide:search"
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4"
-              />
+    <>
+      {/* Top Bar - Hides on scroll */}
+      <motion.div
+        initial={{ y: 0 }}
+        animate={{ y: isScrolled ? -100 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 transition-colors duration-200"
+      >
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Search Box */}
+            <div className="flex-1 max-w-md">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-full pl-10 pr-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
+                />
+                <Icon
+                  icon="lucide:search"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4"
+                />
+              </div>
+            </div>
+
+            {/* Logo */}
+            <div className="flex-1 flex justify-center">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/logos/logo250.png"
+                  alt="Logo"
+                  width={120}
+                  height={40}
+                  className="h-8 w-auto"
+                />
+              </Link>
+            </div>
+
+            {/* Login Button */}
+            <div className="flex-1 flex justify-end">
+              <Button
+                onClick={handleLoginClick}
+                variant="primary"
+                size="md"
+                icon="lucide:user"
+                iconPosition="left"
+                className="bg-primary hover:bg-primary/90 text-white border-0"
+              >
+                Login
+              </Button>
             </div>
           </div>
-
-          {/* Logo */}
-          <div className="flex-1 flex justify-center">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/logos/logo250.png"
-                alt="Logo"
-                width={120}
-                height={40}
-                className="h-8 w-auto"
-              />
-            </Link>
-          </div>
-
-          {/* Login Button */}
-          <div className="flex-1 flex justify-end">
-            <Button
-              onClick={handleLoginClick}
-              variant="primary"
-              size="md"
-              icon="lucide:user"
-              iconPosition="left"
-              className="bg-primary hover:bg-primary/90 text-white border-0"
-            >
-              Login
-            </Button>
-          </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Navigation Links */}
-      <div className="py-4 border-y border-neutral-200 dark:border-neutral-700 transition-colors duration-200">
-        <div className="container mx-auto px-4">
+      {/* Navigation Links - Always visible when scrolled */}
+      <nav
+        className={`fixed left-0 right-0 z-40 bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 transition-all duration-300 ${
+          isScrolled ? "top-0 shadow-md" : "top-24"
+        }`}
+      >
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between h-14">
             {/* Left Side - Navigation Links */}
             <div className="flex items-center space-x-8">
@@ -371,155 +394,164 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Dropdown Menus */}
-      <AnimatePresence>
-        {activeDropdown && (
-          <>
-            {/* Backdrop */}
-            <div
-              className="fixed inset-0 bg-transparent z-40"
-              onClick={closeDropdown}
-            />
+        {/* Dropdown Menus */}
+        <AnimatePresence>
+          {activeDropdown && (
+            <>
+              {/* Backdrop */}
+              <div
+                className="fixed inset-0 bg-transparent z-30"
+                onClick={closeDropdown}
+              />
 
-            {/* Dropdown Content */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={dropdownVariants}
-              transition={{ duration: 0.3 }}
-              className="absolute top-full left-0 w-screen bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 z-50 transition-colors duration-200"
-            >
-              <div className="container mx-auto px-4 py-8">
-                {activeDropdown === "theme" ? (
-                  // Theme Dropdown
-                  <div className="flex justify-center">
-                    <div className="grid grid-cols-3 gap-4 w-full">
-                      {themeOptions.map((themeOption) => (
-                        <button
-                          key={themeOption.value}
-                          onClick={() => handleThemeChange(themeOption.value)}
-                          className={`bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer ${
-                            theme === themeOption.value ||
-                            (themeOption.value === "system" &&
-                              !["light", "dark"].includes(theme))
-                              ? "ring-2 ring-primary bg-primary/5"
-                              : ""
-                          }`}
-                        >
-                          <Icon
-                            icon={themeOption.icon}
-                            className="w-8 h-8 mx-auto mb-3"
-                          />
-                          <h4 className="font-semibold text-sm">
-                            {themeOption.label}
-                          </h4>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ) : activeDropdown === "social" ? (
-                  // Social Media Dropdown
-                  <div className="flex justify-center">
-                    <div className="grid grid-cols-4 gap-4 w-full">
-                      {socialLinks.map((social) => (
-                        <a
-                          key={social.name}
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary hover:text-primary transition-all duration-200 cursor-pointer"
-                          onClick={closeDropdown}
-                        >
-                          <Icon
-                            icon={social.icon}
-                            className="w-8 h-8 mx-auto mb-3"
-                          />
-                          <h4 className="font-semibold text-sm">
-                            {social.name}
-                          </h4>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  // Regular Menu Dropdown
-                  <div className="flex gap-8">
-                    {/* Left Side - Links */}
-                    <div className="flex-shrink-0">
-                      <div className="space-y-4">
-                        {menuItems
-                          .find((item) => item.label === activeDropdown)
-                          ?.dropdownItems?.map((dropdownItem) => (
-                            <div key={dropdownItem.label}>
-                              {dropdownItem.external ? (
-                                <a
-                                  href={dropdownItem.href}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="block text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
-                                  onClick={closeDropdown}
-                                >
-                                  <div className="flex items-center gap-2">
-                                    {dropdownItem.label}
-                                    <Icon
-                                      icon="lucide:external-link"
-                                      className="w-4 h-4"
-                                    />
-                                  </div>
-                                </a>
-                              ) : (
-                                <Link
-                                  href={dropdownItem.href}
-                                  className="block text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
-                                  onClick={closeDropdown}
-                                >
-                                  {dropdownItem.label}
-                                </Link>
-                              )}
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-
-                    {/* Right Side - Cards */}
-                    <div className="flex-1 ml-8">
-                      <div className="grid grid-cols-3 gap-4">
-                        {dropdownCards[
-                          activeDropdown as keyof typeof dropdownCards
-                        ]?.map((card, index) => (
-                          <div
-                            key={index}
-                            className={`bg-gradient-to-br rounded ${getCardColorClasses(
-                              card.color
-                            )} p-6 text-center`}
+              {/* Dropdown Content */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={dropdownVariants}
+                transition={{ duration: 0.3 }}
+                className="absolute top-full left-0 w-screen bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 z-40 transition-colors duration-200"
+              >
+                <div className="container mx-auto px-4 py-8">
+                  {activeDropdown === "theme" ? (
+                    // Theme Dropdown
+                    <div className="flex justify-center">
+                      <div className="grid grid-cols-3 gap-4 w-full">
+                        {themeOptions.map((themeOption) => (
+                          <button
+                            key={themeOption.value}
+                            onClick={() => handleThemeChange(themeOption.value)}
+                            className={`bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer ${
+                              theme === themeOption.value ||
+                              (themeOption.value === "system" &&
+                                !["light", "dark"].includes(theme))
+                                ? "ring-2 ring-primary bg-primary/5"
+                                : ""
+                            }`}
                           >
                             <Icon
-                              icon={card.icon}
-                              className={`w-10 h-10 mx-auto mb-3 ${
-                                card.color === "yellow" ? "text-yellow-600" : ""
-                              }`}
+                              icon={themeOption.icon}
+                              className="w-8 h-8 mx-auto mb-3"
                             />
-                            <h4 className="font-semibold text-neutral-800 dark:text-neutral-200 text-sm mb-2">
-                              {card.title}
+                            <h4 className="font-semibold text-sm">
+                              {themeOption.label}
                             </h4>
-                            <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                              {card.description}
-                            </p>
-                          </div>
+                          </button>
                         ))}
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </nav>
+                  ) : activeDropdown === "social" ? (
+                    // Social Media Dropdown
+                    <div className="flex justify-center">
+                      <div className="grid grid-cols-4 gap-4 w-full">
+                        {socialLinks.map((social) => (
+                          <a
+                            key={social.name}
+                            href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary hover:text-primary transition-all duration-200 cursor-pointer"
+                            onClick={closeDropdown}
+                          >
+                            <Icon
+                              icon={social.icon}
+                              className="w-8 h-8 mx-auto mb-3"
+                            />
+                            <h4 className="font-semibold text-sm">
+                              {social.name}
+                            </h4>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    // Regular Menu Dropdown
+                    <div className="flex gap-8">
+                      {/* Left Side - Links */}
+                      <div className="flex-shrink-0">
+                        <div className="space-y-4">
+                          {menuItems
+                            .find((item) => item.label === activeDropdown)
+                            ?.dropdownItems?.map((dropdownItem) => (
+                              <div key={dropdownItem.label}>
+                                {dropdownItem.external ? (
+                                  <a
+                                    href={dropdownItem.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
+                                    onClick={closeDropdown}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      {dropdownItem.label}
+                                      <Icon
+                                        icon="lucide:external-link"
+                                        className="w-4 h-4"
+                                      />
+                                    </div>
+                                  </a>
+                                ) : (
+                                  <Link
+                                    href={dropdownItem.href}
+                                    className="block text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
+                                    onClick={closeDropdown}
+                                  >
+                                    {dropdownItem.label}
+                                  </Link>
+                                )}
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+
+                      {/* Right Side - Cards */}
+                      <div className="flex-1 ml-8">
+                        <div className="grid grid-cols-3 gap-4">
+                          {dropdownCards[
+                            activeDropdown as keyof typeof dropdownCards
+                          ]?.map((card, index) => (
+                            <div
+                              key={index}
+                              className={`bg-gradient-to-br rounded ${getCardColorClasses(
+                                card.color
+                              )} p-6 text-center`}
+                            >
+                              <Icon
+                                icon={card.icon}
+                                className={`w-10 h-10 mx-auto mb-3 ${
+                                  card.color === "yellow"
+                                    ? "text-yellow-600"
+                                    : ""
+                                }`}
+                              />
+                              <h4 className="font-semibold text-neutral-800 dark:text-neutral-200 text-sm mb-2">
+                                {card.title}
+                              </h4>
+                              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                                {card.description}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Spacer to prevent content from being hidden under navbar */}
+      <div
+        className={`${
+          isScrolled ? "h-[72px]" : "h-[168px]"
+        } transition-all duration-300`}
+      ></div>
+    </>
   );
 };
 
