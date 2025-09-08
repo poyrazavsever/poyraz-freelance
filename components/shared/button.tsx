@@ -38,27 +38,27 @@ const Button: React.FC<ButtonProps> = ({
 
   // Base styles
   const baseStyles =
-    "inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 dark:focus:ring-neutral-600 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden cursor-pointer";
+    "inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 dark:focus:ring-primary/60 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden cursor-pointer";
 
   // Size variants
   const sizeStyles = {
-    sm: "px-3 py-1.5 text-xs gap-1.5 rounded-md",
-    md: "px-4 py-2 text-sm gap-2 rounded-lg",
-    lg: "px-6 py-3 text-base gap-2.5 rounded-xl",
+    sm: "px-3 py-1.5 text-xs gap-1.5 rounded",
+    md: "px-4 py-2 text-sm gap-2 rounded-md",
+    lg: "px-6 py-3 text-base gap-2.5 rounded-lg",
   };
 
   // Variant styles
   const variantStyles = {
     primary:
-      "bg-neutral-900 dark:bg-neutral-100 text-neutral-100 dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200 shadow-sm hover:shadow-md",
+      "bg-primary hover:bg-primary/90 text-dark-bg dark:text-dark-bg border-0",
     secondary:
-      "bg-neutral-50/20 dark:bg-neutral-900/20 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 border border-neutral-200 dark:border-neutral-800 transition-shadow hover:shadow-sm",
+      "bg-secondary dark:bg-secondary/20 text-dark-bg dark:text-dark-bg hover:bg-primary/20 dark:hover:bg-primary/30 border border-primary/20 dark:border-primary/30",
     outline:
-      "bg-transparent text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50/20 dark:hover:bg-neutral-900/20 transition-shadow hover:shadow-sm",
+      "bg-transparent text-dark-bg dark:text-dark-bg border border-primary/30 dark:border-primary/40 hover:bg-primary/10 dark:hover:bg-primary/20",
     ghost:
-      "bg-transparent text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50/20 dark:hover:bg-neutral-900/20 hover:text-neutral-700 dark:hover:text-neutral-300 transition-all",
+      "bg-transparent text-dark-bg/80 dark:text-dark-bg/80 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-dark-bg dark:hover:text-dark-bg transition-all",
     gradient:
-      "bg-gradient-to-r from-neutral-800 to-neutral-600 dark:from-neutral-200 dark:to-neutral-400 text-neutral-100 dark:text-neutral-900 hover:from-neutral-700 hover:to-neutral-500 dark:hover:from-neutral-100 dark:hover:to-neutral-300 shadow-sm hover:shadow-md",
+      "bg-gradient-to-r from-primary to-primary/80 dark:from-primary dark:to-primary/90 text-dark-bg dark:text-dark-bg hover:from-primary/90 hover:to-primary/70 dark:hover:from-primary/90 dark:hover:to-primary/80",
   };
 
   // Icon size based on button size
