@@ -1,5 +1,9 @@
+import HeroSection from "@/components/futures/home/heroSection";
+
 export default function Home() {
   return (
-    <div> </div>
+    <div>
+      <HeroSection />
+    </div>
   );
 }
