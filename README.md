@@ -26,17 +26,20 @@ The goal is to create a comprehensive solution that helps freelancers showcase t
 ### Current Implementation
 
 - **Responsive Navigation System**
+
   - Desktop: Advanced dropdown menus with animated cards
   - Mobile: Full-page burger menu with submenu navigation
   - Theme switching (Light/Dark/System)
   - Social media integration
 
 - **Professional Landing Page**
+
   - Hero section with availability status
   - Animated statistics and call-to-action buttons
   - Gradient backgrounds with floating elements
 
 - **Design System**
+
   - Custom color palette with primary color (#ffbd59)
   - Consistent typography and spacing
   - Dark mode support with proper color schemes
@@ -51,18 +54,21 @@ The goal is to create a comprehensive solution that helps freelancers showcase t
 ### Planned Features
 
 - **Client Dashboard**
+
   - Project progress tracking
   - Communication history
   - File sharing system
   - Invoice and payment management
 
 - **Freelancer Portfolio**
+
   - Project showcase
   - Skill demonstration
   - Testimonials and reviews
   - Availability calendar
 
 - **Communication Tools**
+
   - Real-time messaging
   - Video call integration
   - Project comments and feedback
@@ -77,6 +83,7 @@ The goal is to create a comprehensive solution that helps freelancers showcase t
 ## Tech Stack
 
 ### Frontend
+
 - **Next.js 15.5.2** - React framework with App Router
 - **React 19.1.0** - UI library
 - **TypeScript** - Type safety and developer experience
@@ -84,11 +91,13 @@ The goal is to create a comprehensive solution that helps freelancers showcase t
 - **Framer Motion 12.23.12** - Animation library
 
 ### UI Components
+
 - **@iconify/react 6.0.1** - Comprehensive icon system
 - **react-hot-toast 2.6.0** - Toast notifications
 - **Custom Button System** - Reusable component library
 
 ### Development Tools
+
 - **ESLint** - Code linting
 - **Prettier** - Code formatting
 - **PostCSS** - CSS processing
@@ -104,17 +113,20 @@ The goal is to create a comprehensive solution that helps freelancers showcase t
 ### Installation
 
 1. Clone the repository
+
 ```bash
 git clone https://github.com/poyrazavsever/freelance-poyraz.git
 cd freelance-poyraz
 ```
 
 2. Install dependencies
+
 ```bash
 pnpm install
 ```
 
 3. Run the development server
+
 ```bash
 pnpm dev
 ```
@@ -168,6 +180,7 @@ freelance-poyraz/
 ### Typography
 
 The project uses a systematic approach to typography with:
+
 - Consistent font weights (400, 500, 600, 700)
 - Responsive font sizes
 - Proper line heights and letter spacing
@@ -183,17 +196,20 @@ The project uses a systematic approach to typography with:
 ## Development Guidelines
 
 ### Code Style
+
 - Use TypeScript for type safety
 - Follow ESLint and Prettier configurations
 - Use Tailwind CSS for styling
 - Implement responsive design mobile-first
 
 ### Component Structure
+
 - Create reusable components in `/components/shared/`
 - Feature-specific components in `/components/futures/`
 - Layout components in `/components/layout/`
 
 ### Animation Guidelines
+
 - Use Framer Motion for complex animations
 - Keep animations smooth and purposeful
 - Respect user's reduced motion preferences
