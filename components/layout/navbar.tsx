@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import toast from "react-hot-toast";
+import Button from "../shared/button";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -20,7 +21,9 @@ const Navbar = () => {
       applyTheme(savedTheme);
     } else {
       // Eğer kayıtlı theme yoksa sistem tercihini kontrol et
-      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const systemPrefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
       const defaultTheme = systemPrefersDark ? "dark" : "light";
       setTheme(defaultTheme);
       applyTheme(defaultTheme);
@@ -39,7 +42,9 @@ const Navbar = () => {
 
   const handleThemeChange = (selectedTheme: string) => {
     if (selectedTheme === "system") {
-      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const systemPrefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
       const systemTheme = systemPrefersDark ? "dark" : "light";
       setTheme(systemTheme);
       applyTheme(systemTheme);
@@ -49,7 +54,11 @@ const Navbar = () => {
       setTheme(selectedTheme);
       applyTheme(selectedTheme);
       localStorage.setItem("theme", selectedTheme);
-      toast.success(`Theme changed to ${selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)}`);
+      toast.success(
+        `Theme changed to ${
+          selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)
+        }`
+      );
     }
     closeDropdown();
   };
@@ -59,7 +68,7 @@ const Navbar = () => {
   };
 
   const handleLoginClick = () => {
-    toast.error("Not active yet");
+    toast.error("Currently Not Available");
   };
 
   const closeDropdown = () => {
@@ -225,12 +234,16 @@ const Navbar = () => {
 
   const getCardColorClasses = (color: string) => {
     const colorMap = {
-      purple: "from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 text-purple-600 dark:text-purple-400",
+      purple:
+        "from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 text-purple-600 dark:text-purple-400",
       blue: "from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 text-blue-600 dark:text-blue-400",
-      green: "from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 text-green-600 dark:text-green-400",
+      green:
+        "from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 text-green-600 dark:text-green-400",
       pink: "from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 text-pink-600 dark:text-pink-400",
-      indigo: "from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 text-indigo-600 dark:text-indigo-400",
-      yellow: "from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 text-yellow-600 dark:text-yellow-400",
+      indigo:
+        "from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 text-indigo-600 dark:text-indigo-400",
+      yellow:
+        "from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 text-yellow-600 dark:text-yellow-400",
     };
     return (
       colorMap[color as keyof typeof colorMap] ||
@@ -273,14 +286,16 @@ const Navbar = () => {
 
           {/* Login Button */}
           <div className="flex-1 flex justify-end">
-            <button
+            <Button
               onClick={handleLoginClick}
-              disabled
-              className="px-6 py-2 bg-neutral-300 text-neutral-500 rounded-lg cursor-not-allowed flex items-center gap-2"
+              variant="primary"
+              size="md"
+              icon="lucide:user"
+              iconPosition="left"
+              className="bg-primary hover:bg-primary/90 text-white border-0"
             >
-              <Icon icon="lucide:user" className="w-4 h-4" />
               Login
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -387,7 +402,9 @@ const Navbar = () => {
                           key={themeOption.value}
                           onClick={() => handleThemeChange(themeOption.value)}
                           className={`bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer ${
-                            theme === themeOption.value || (themeOption.value === "system" && !["light", "dark"].includes(theme))
+                            theme === themeOption.value ||
+                            (themeOption.value === "system" &&
+                              !["light", "dark"].includes(theme))
                               ? "ring-2 ring-primary bg-primary/5"
                               : ""
                           }`}
