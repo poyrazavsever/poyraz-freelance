@@ -35,24 +35,39 @@ const Footer = () => {
 
   const socialLinks = [
     {
-      name: "Instagram",
-      href: "https://instagram.com/poyrazavsever",
-      icon: "lucide:instagram",
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/poyrazavsever/",
+      icon: "hugeicons:linkedin-01",
     },
     {
-      name: "YouTube",
-      href: "https://youtube.com/@poyrazavsever",
-      icon: "lucide:youtube",
+      label: "GitHub",
+      href: "https://www.github.com/poyrazavsever",
+      icon: "hugeicons:github",
     },
     {
-      name: "LinkedIn",
-      href: "https://linkedin.com/in/poyrazavsever",
-      icon: "lucide:linkedin",
+      label: "Instagram",
+      href: "https://www.instagram.com/poyraz_avsever/",
+      icon: "hugeicons:instagram",
     },
     {
-      name: "GitHub",
-      href: "https://github.com/poyrazavsever",
-      icon: "lucide:github",
+      label: "Youtube",
+      href: "http://youtube.com/@poyrazavsever",
+      icon: "hugeicons:youtube",
+    },
+    {
+      label: "Medium",
+      href: "https://medium.com/@poyrazavsever",
+      icon: "hugeicons:medium-square",
+    },
+    {
+      label: "Behance",
+      href: "https://www.behance.net/poyrazavsever",
+      icon: "hugeicons:behance-02",
+    },
+    {
+      label: "Buy Me a Coffee",
+      href: "https://www.buymeacoffee.com/poyrazavsever",
+      icon: "simple-icons:buymeacoffee",
     },
   ];
 
@@ -103,12 +118,12 @@ const Footer = () => {
                 <div className="flex space-x-4">
                   {socialLinks.map((social) => (
                     <a
-                      key={social.name}
+                      key={social.label}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 bg-neutral-800 dark:bg-neutral-900 rounded-lg flex items-center justify-center text-neutral-400 hover:text-primary hover:bg-primary/10 transition-all duration-200"
-                      title={social.name}
+                      title={social.label}
                     >
                       <Icon icon={social.icon} className="w-5 h-5" />
                     </a>

@@ -153,24 +153,39 @@ const Navbar = () => {
 
   const socialLinks = [
     {
-      name: "Instagram",
-      href: "https://instagram.com/poyrazavsever",
-      icon: "lucide:instagram",
+      href: "https://www.linkedin.com/in/poyrazavsever/",
+      icon: "hugeicons:linkedin-01",
+      label: "LinkedIn",
     },
     {
-      name: "YouTube",
-      href: "https://youtube.com/@poyrazavsever",
-      icon: "lucide:youtube",
+      href: "https://www.github.com/poyrazavsever",
+      icon: "hugeicons:github",
+      label: "GitHub",
     },
     {
-      name: "LinkedIn",
-      href: "https://linkedin.com/in/poyrazavsever",
-      icon: "lucide:linkedin",
+      href: "https://www.instagram.com/poyraz_avsever/",
+      icon: "hugeicons:instagram",
+      label: "Instagram",
     },
     {
-      name: "GitHub",
-      href: "https://github.com/poyrazavsever",
-      icon: "lucide:github",
+      href: "http://youtube.com/@poyrazavsever",
+      icon: "hugeicons:youtube",
+      label: "Youtube",
+    },
+    {
+      href: "https://medium.com/@poyrazavsever",
+      icon: "hugeicons:medium-square",
+      label: "Medium",
+    },
+    {
+      href: "https://www.behance.net/poyrazavsever",
+      icon: "hugeicons:behance-02",
+      label: "Behance",
+    },
+    {
+      href: "https://www.buymeacoffee.com/poyrazavsever",
+      icon: "simple-icons:buymeacoffee",
+      label: "Buy Me a Coffee",
     },
   ];
 
@@ -448,7 +463,7 @@ const Navbar = () => {
                       <div className="grid grid-cols-4 gap-4 w-full">
                         {socialLinks.map((social) => (
                           <a
-                            key={social.name}
+                            key={social.label}
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -460,7 +475,7 @@ const Navbar = () => {
                               className="w-8 h-8 mx-auto mb-3"
                             />
                             <h4 className="font-semibold text-sm">
-                              {social.name}
+                              {social.label}
                             </h4>
                           </a>
                         ))}
