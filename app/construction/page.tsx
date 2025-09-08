@@ -57,7 +57,8 @@ export default function ConstructionPage() {
           </h1>
 
           <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-lg mx-auto leading-relaxed">
-            We are developing a new platform to strengthen the relationships between freelancers and their clients.
+            We are developing a new platform to strengthen the relationships
+            between freelancers and their clients.
           </p>
 
           <div className="pt-4">
