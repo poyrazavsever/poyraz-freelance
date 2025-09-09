@@ -36,12 +36,15 @@ const HeroSection = () => {
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]"
+          className="flex items-center justify-center min-h-[80vh]"
         >
-          {/* Left Content */}
-          <div className="space-y-8">
+          {/* Centered Content */}
+          <div className="space-y-8 text-center max-w-2xl mx-auto">
             {/* Availability Status */}
-            <motion.div variants={fadeInUp} className="flex items-center gap-3">
+            <motion.div
+              variants={fadeInUp}
+              className="flex items-center justify-center gap-3"
+            >
               <div
                 className={`flex items-center gap-2 px-4 py-2 rounded-full border ${
                   isAvailable
@@ -63,33 +66,36 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Main Heading */}
-            <motion.div variants={fadeInUp} className="space-y-4">
+            <motion.div variants={fadeInUp} className="space-y-3">
               <h1 className="text-4xl lg:text-5xl font-bold text-dark-bg dark:text-white leading-tight">
                 Let's Build
                 <span className="block text-primary">Something Amazing</span>
                 Together
               </h1>
-              <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-lg">
+              <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mx-auto">
                 I'm a passionate developer who turns your ideas into powerful
                 digital experiences. Ready to bring your vision to life.
               </p>
             </motion.div>
 
             {/* Stats */}
-            <motion.div variants={fadeInUp} className="grid grid-cols-3 gap-6">
-              <div className="text-center lg:text-left">
+            <motion.div
+              variants={fadeInUp}
+              className="grid grid-cols-3 gap-6 max-w-md mx-auto"
+            >
+              <div className="text-center">
                 <div className="text-2xl font-bold text-primary">3+</div>
                 <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   Years Experience
                 </div>
               </div>
-              <div className="text-center lg:text-left">
+              <div className="text-center">
                 <div className="text-2xl font-bold text-primary">50+</div>
                 <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   Projects Completed
                 </div>
               </div>
-              <div className="text-center lg:text-left">
+              <div className="text-center">
                 <div className="text-2xl font-bold text-primary">100%</div>
                 <div className="text-sm text-neutral-600 dark:text-neutral-400">
                   Client Satisfaction
@@ -100,7 +106,7 @@ const HeroSection = () => {
             {/* Action Buttons */}
             <motion.div
               variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Button
                 variant="primary"
@@ -123,96 +129,7 @@ const HeroSection = () => {
                 View My Work
               </Button>
             </motion.div>
-
-            {/* Quick Info */}
-            <motion.div
-              variants={fadeInUp}
-              className="flex flex-wrap gap-6 pt-4"
-            >
-              <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
-                <Icon icon="lucide:clock" className="w-5 h-5 text-primary" />
-                <span className="text-sm">Fast Delivery</span>
-              </div>
-              <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
-                <Icon
-                  icon="lucide:shield-check"
-                  className="w-5 h-5 text-primary"
-                />
-                <span className="text-sm">Quality Guaranteed</span>
-              </div>
-              <div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
-                <Icon
-                  icon="lucide:headphones"
-                  className="w-5 h-5 text-primary"
-                />
-                <span className="text-sm">24/7 Support</span>
-              </div>
-            </motion.div>
           </div>
-
-          {/* Right Content - Profile/Image */}
-          <motion.div
-            variants={fadeInUp}
-            className="relative flex justify-center lg:justify-end"
-          >
-            <div className="relative">
-              {/* Profile Image Container */}
-              <div className="relative w-80 h-80 lg:w-96 lg:h-96">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full blur-2xl opacity-20"></div>
-                <div className="relative w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full border border-primary/20 flex items-center justify-center">
-                  {/* Placeholder for profile image */}
-                  <div className="w-full h-full bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-800 dark:to-neutral-700 rounded-full flex items-center justify-center">
-                    <Icon
-                      icon="lucide:user"
-                      className="w-32 h-32 text-neutral-400 dark:text-neutral-600"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Elements */}
-              <motion.div
-                animate={{ y: [-10, 10, -10] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -top-4 -right-4 bg-white dark:bg-dark-bg rounded-lg p-3 shadow-lg border border-neutral-200 dark:border-neutral-700"
-              >
-                <Icon icon="lucide:code" className="w-8 h-8 text-primary" />
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [10, -10, 10] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-                className="absolute -bottom-4 -left-4 bg-white dark:bg-dark-bg rounded-lg p-3 shadow-lg border border-neutral-200 dark:border-neutral-700"
-              >
-                <Icon
-                  icon="lucide:palette"
-                  className="w-8 h-8 text-secondary"
-                />
-              </motion.div>
-
-              <motion.div
-                animate={{ y: [-5, 15, -5] }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
-                className="absolute top-1/2 -left-8 bg-white dark:bg-dark-bg rounded-lg p-3 shadow-lg border border-neutral-200 dark:border-neutral-700"
-              >
-                <Icon icon="lucide:rocket" className="w-8 h-8 text-primary" />
-              </motion.div>
-            </div>
-          </motion.div>
         </motion.div>
 
         {/* Scroll Indicator */}
