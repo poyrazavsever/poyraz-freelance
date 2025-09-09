@@ -49,16 +49,15 @@ const Button: React.FC<ButtonProps> = ({
 
   // Variant styles
   const variantStyles = {
-    primary:
-      "bg-primary hover:bg-primary/90 text-dark-bg dark:text-dark-bg border-0",
+    primary: "bg-primary hover:bg-primary/90 text-neutral-900 border-0",
     secondary:
-      "bg-secondary dark:bg-secondary/20 text-dark-bg dark:text-dark-bg hover:bg-primary/20 dark:hover:bg-primary/30 border border-primary/20 dark:border-primary/30",
+      "bg-secondary hover:bg-primary text-neutral-900 border border-primary/20 dark:border-primary/30",
     outline:
-      "bg-transparent text-dark-bg dark:text-dark-bg border border-primary/30 dark:border-primary/40 hover:bg-primary/10 dark:hover:bg-primary/20",
+      "bg-transparent text-neutral-900 dark:text-white border border-primary/30 dark:border-primary/40 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-neutral-900 dark:hover:text-white",
     ghost:
-      "bg-transparent text-dark-bg/80 dark:text-dark-bg/80 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-dark-bg dark:hover:text-dark-bg transition-all",
+      "bg-transparent text-neutral-700 dark:text-neutral-300 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-neutral-900 dark:hover:text-white transition-all",
     gradient:
-      "bg-gradient-to-r from-primary to-primary/80 dark:from-primary dark:to-primary/90 text-dark-bg dark:text-dark-bg hover:from-primary/90 hover:to-primary/70 dark:hover:from-primary/90 dark:hover:to-primary/80",
+      "bg-gradient-to-r from-primary to-primary/80 text-neutral-900 hover:from-primary/90 hover:to-primary/70",
   };
 
   // Icon size based on button size
