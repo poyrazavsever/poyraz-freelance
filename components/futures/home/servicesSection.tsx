@@ -179,37 +179,6 @@ const ServicesSection = () => {
               </div>
             ))}
           </div>
-
-          {/* Bottom CTA Section */}
-          <div className="text-center mt-16 bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 rounded-2xl p-8 border border-primary/20 dark:border-primary/10">
-            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">
-              Which Service Do You Need?
-            </h3>
-            <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-6 max-w-2xl mx-auto">
-              Let's discuss your project details and find the best solution for
-              you. Contact me for free consultation.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                variant="primary"
-                size="lg"
-                icon="lucide:message-circle"
-                iconPosition="left"
-                href="/contact"
-              >
-                Free Consultation
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                icon="lucide:calendar"
-                iconPosition="left"
-                href="/packages"
-              >
-                Package Prices
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
