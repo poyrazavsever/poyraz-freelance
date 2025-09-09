@@ -1,11 +1,10 @@
-'use client'
+"use client";
 import React from "react";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import Button from "@/components/shared/button";
 
 const AboutSection = () => {
-
   const achievements = [
     {
       number: "50+",
@@ -183,10 +182,9 @@ const AboutSection = () => {
             <motion.div variants={itemVariants}>
               <div className="grid grid-cols-2 gap-4">
                 {achievements.map((achievement, index) => (
-                  <motion.div
+                  <div
                     key={achievement.label}
-                    variants={itemVariants}
-                    className="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-neutral-200 dark:border-neutral-700 text-center hover:shadow-lg dark:hover:shadow-xl transition-all duration-300"
+                    className="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-neutral-200 dark:border-neutral-700 text-center"
                   >
                     <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
                       <Icon
@@ -200,7 +198,7 @@ const AboutSection = () => {
                     <div className="text-sm text-neutral-600 dark:text-neutral-400">
                       {achievement.label}
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </motion.div>
