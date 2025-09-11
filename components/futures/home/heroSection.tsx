@@ -25,7 +25,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="min-h-screen bg-white dark:bg-dark-bg relative overflow-hidden">
+    <section className="bg-white dark:bg-dark-bg relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
       <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
