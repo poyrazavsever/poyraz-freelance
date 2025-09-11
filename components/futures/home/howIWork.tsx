@@ -27,32 +27,32 @@ const HowIWork = () => {
   const workflowSteps = [
     {
       id: 1,
-      title: "Brief Al",
+      title: "Get Brief",
       description: "Project requirements and goals discussion",
     },
     {
       id: 2,
-      title: "Teklif Hazırla",
+      title: "Create Proposal",
       description: "Detailed proposal with timeline and pricing",
     },
     {
       id: 3,
-      title: "Onay",
+      title: "Approval",
       description: "Contract signing and project approval",
     },
     {
       id: 4,
-      title: "Çalışma",
+      title: "Development",
       description: "Development with regular updates",
     },
     {
       id: 5,
-      title: "Teslim",
+      title: "Delivery",
       description: "Final delivery and quality assurance",
     },
     {
       id: 6,
-      title: "Destek",
+      title: "Support",
       description: "Ongoing support and maintenance",
     },
   ];
