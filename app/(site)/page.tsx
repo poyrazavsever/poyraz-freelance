@@ -8,9 +8,9 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
+      <References />
       <AboutSection />
       <ServicesSection />
-      <References />
       <HowIWork />
     </div>
   );
