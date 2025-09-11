@@ -31,19 +31,19 @@ const HeroSection = () => {
       <div className="absolute top-20 right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
 
-      <div className="container mx-auto px-4 py-20 sm:py-0 relative z-10">
+      <div className="container mx-auto px-4 py-24 sm:py-0 relative z-10">
         <motion.div
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="flex items-center justify-center min-h-[80vh]"
+          className="flex items-start justify-start min-h-[80vh] pt-24"
         >
-          {/* Centered Content */}
-          <div className="space-y-8 text-center max-w-2xl mx-auto">
+          {/* Left Aligned Content */}
+          <div className="space-y-8 text-left max-w-2xl">
             {/* Availability Status */}
             <motion.div
               variants={fadeInUp}
-              className="flex items-center justify-center gap-3"
+              className="flex items-center justify-start gap-3"
             >
               <div
                 className={`flex items-center gap-2 px-4 py-2 rounded-full border ${
@@ -72,7 +72,7 @@ const HeroSection = () => {
                 <span className="block text-primary">Something Amazing</span>
                 Together
               </h1>
-              <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed mx-auto">
+              <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
                 I'm a passionate developer who turns your ideas into powerful
                 digital experiences. Ready to bring your vision to life.
               </p>
@@ -81,7 +81,7 @@ const HeroSection = () => {
             {/* Stats */}
             <motion.div
               variants={fadeInUp}
-              className="grid grid-cols-3 gap-6 max-w-md mx-auto"
+              className="grid grid-cols-3 gap-6 max-w-md"
             >
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">3+</div>
@@ -106,11 +106,11 @@ const HeroSection = () => {
             {/* Action Buttons */}
             <motion.div
               variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex gap-4 justify-start"
             >
               <Button
                 variant="primary"
-                size="lg"
+                size="md"
                 icon="lucide:message-circle"
                 iconPosition="left"
                 href="/contact"
@@ -120,7 +120,7 @@ const HeroSection = () => {
               </Button>
               <Button
                 variant="outline"
-                size="lg"
+                size="md"
                 icon="lucide:eye"
                 iconPosition="left"
                 href="/portfolio"
@@ -130,23 +130,6 @@ const HeroSection = () => {
               </Button>
             </motion.div>
           </div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2 text-neutral-400 dark:text-neutral-600"
-          >
-            <span className="text-sm">Scroll Down</span>
-            <Icon icon="lucide:chevron-down" className="w-5 h-5" />
-          </motion.div>
         </motion.div>
       </div>
     </section>
