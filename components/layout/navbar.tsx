@@ -1,174 +1,91 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
-import toast from "react-hot-toast";
-import Button from "../shared/button";
 
 const Navbar = () => {
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [theme, setTheme] = useState<string>("light");
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState<string | null>(
-    null
-  );
+  const [activeTheme, setActiveTheme] = useState("system");
+  const [isThemeOpen, setIsThemeOpen] = useState(false);
+  const [isSocialOpen, setIsSocialOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const menuRef = useRef<HTMLDivElement>(null);
+  const themeRef = useRef<HTMLDivElement>(null);
+  const socialRef = useRef<HTMLDivElement>(null);
 
-  // Scroll listener
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Theme yönetimi
-  useEffect(() => {
-    // Sayfa yüklendiğinde localStorage'dan theme'i al
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
-      setTheme(savedTheme);
-      applyTheme(savedTheme);
-    } else {
-      // Eğer kayıtlı theme yoksa sistem tercihini kontrol et
-      const systemPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      const defaultTheme = systemPrefersDark ? "dark" : "light";
-      setTheme(defaultTheme);
-      applyTheme(defaultTheme);
-      localStorage.setItem("theme", defaultTheme);
-    }
-  }, []);
-
-  const applyTheme = (selectedTheme: string) => {
-    const root = document.documentElement;
-    if (selectedTheme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  };
-
-  const handleThemeChange = (selectedTheme: string) => {
-    if (selectedTheme === "system") {
-      const systemPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      const systemTheme = systemPrefersDark ? "dark" : "light";
-      setTheme(systemTheme);
-      applyTheme(systemTheme);
-      localStorage.setItem("theme", systemTheme);
-      toast.success(`Theme changed to System (${systemTheme})`);
-    } else {
-      setTheme(selectedTheme);
-      applyTheme(selectedTheme);
-      localStorage.setItem("theme", selectedTheme);
-      toast.success(
-        `Theme changed to ${
-          selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1)
-        }`
-      );
-    }
-    closeDropdown();
-  };
-
-  const handleDropdownClick = (dropdown: string) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
-  };
-
-  const handleLoginClick = () => {
-    toast.error("Currently Not Available");
-  };
-
-  const closeDropdown = () => {
-    setActiveDropdown(null);
-  };
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    setMobileSubmenuOpen(null);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-    setMobileSubmenuOpen(null);
-  };
-
-  const openMobileSubmenu = (menuLabel: string) => {
-    setMobileSubmenuOpen(menuLabel);
-  };
-
-  const closeMobileSubmenu = () => {
-    setMobileSubmenuOpen(null);
-  };
-
-  const dropdownVariants = {
-    hidden: {
-      opacity: 0,
-      y: -10,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
+  const pathname = usePathname();
 
   const menuItems = [
     {
-      label: "Home",
-      href: "/",
-      hasDropdown: false,
-    },
-    {
       label: "About",
-      href: "#",
       hasDropdown: true,
       dropdownItems: [
-        { label: "How it Works", href: "/how-it-works" },
+        {
+          label: "How it Works",
+          href: "/how-it-works",
+          icon: "hugeicons:workflow-circle-01",
+        },
+        {
+          label: "About Me",
+          href: "/about-me",
+          icon: "hugeicons:user-account",
+        },
+        { label: "References", href: "/references", icon: "hugeicons:star" },
         {
           label: "Blog",
           href: "https://poyrazavsever.com/blog",
+          icon: "hugeicons:text-align-justify-center",
           external: true,
         },
-        { label: "About Me", href: "/about-me" },
-        { label: "References", href: "/references" },
       ],
     },
     {
       label: "Categories",
-      href: "#",
       hasDropdown: true,
       dropdownItems: [
-        { label: "UI Design", href: "/categories/ui-design" },
-        { label: "Web Development", href: "/categories/web-development" },
+        {
+          label: "UI Design",
+          href: "/categories/ui-design",
+          icon: "hugeicons:paint-board",
+        },
+        {
+          label: "Web Development",
+          href: "/categories/web-development",
+          icon: "hugeicons:code",
+        },
+        {
+          label: "E-commerce Solutions",
+          href: "/categories/e-commerce",
+          icon: "hugeicons:shopping-cart-01",
+        },
+        { label: "Packages", href: "/packages", icon: "hugeicons:package" },
+        {
+          label: "Offer Request",
+          href: "/offer-request",
+          icon: "hugeicons:file-attachment",
+        },
       ],
     },
     {
-      label: "Packages",
-      href: "/packages",
-      hasDropdown: false,
-    },
-    {
-      label: "Offer Request",
-      href: "/offer-request",
-      hasDropdown: false,
-    },
-    {
       label: "Support",
-      href: "#",
       hasDropdown: true,
       dropdownItems: [
-        { label: "Contact", href: "/contact" },
-        { label: "FAQ", href: "/faq" },
-        { label: "Help Center", href: "/help-center" },
-        { label: "Policies", href: "/policies" },
+        { label: "Contact", href: "/contact", icon: "hugeicons:mail-01" },
+        { label: "FAQ", href: "/faq", icon: "hugeicons:help-circle" },
+        {
+          label: "Help Center",
+          href: "/help-center",
+          icon: "hugeicons:customer-support",
+        },
+        {
+          label: "Policies",
+          href: "/policies",
+          icon: "hugeicons:legal-document-01",
+        },
       ],
     },
   ];
@@ -212,630 +129,280 @@ const Navbar = () => {
   ];
 
   const themeOptions = [
-    { label: "Light", value: "light", icon: "lucide:sun" },
-    { label: "Dark", value: "dark", icon: "lucide:moon" },
-    { label: "System", value: "system", icon: "lucide:monitor" },
+    { label: "Light", value: "light", icon: "mdi:weather-sunny" },
+    { label: "Dark", value: "dark", icon: "mdi:weather-night" },
+    { label: "System", value: "system", icon: "mdi:monitor" },
   ];
 
-  // Different cards for each dropdown
-  const dropdownCards = {
-    About: [
-      {
-        title: "+ 3 Years of Experience",
-        description: "A Young Person Exploring Technology",
-        icon: "lucide:star",
-        color: "purple",
-      },
-      {
-        title: "Large Skill Set",
-        description: "Technical abilities",
-        icon: "lucide:code",
-        color: "blue",
-      },
-      {
-        title: "Visionary",
-        description: "Future goals",
-        icon: "lucide:eye",
-        color: "green",
-      },
-    ],
-    Categories: [
-      {
-        title: "I Love Design",
-        description: "Creative solutions and Aesthetics",
-        icon: "lucide:palette",
-        color: "pink",
-      },
-      {
-        title: "Smart Development",
-        description: "Efficient and Scalable",
-        icon: "lucide:code-2",
-        color: "indigo",
-      },
-      {
-        title: "Consulting Services",
-        description: "Strategic Advice",
-        icon: "lucide:lightbulb",
-        color: "yellow",
-      },
-    ],
-    Support: [
-      {
-        title: "I'm Here to Help",
-        description: "Get assistance",
-        icon: "lucide:help-circle",
-        color: "blue",
-      },
-      {
-        title: "Many FAQs",
-        description: "Learn more",
-        icon: "lucide:book",
-        color: "green",
-      },
-      {
-        title: "Community",
-        description: "Join Discussions",
-        icon: "lucide:users",
-        color: "purple",
-      },
-    ],
+  const handleThemeChange = (themeValue: string) => {
+    setActiveTheme(themeValue);
+    localStorage.setItem("theme", themeValue);
+    if (
+      themeValue === "dark" ||
+      (themeValue === "system" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    setIsThemeOpen(false);
   };
 
-  const getCardColorClasses = (color: string) => {
-    const colorMap = {
-      purple:
-        "from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 text-purple-600 dark:text-purple-400",
-      blue: "from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 text-blue-600 dark:text-blue-400",
-      green:
-        "from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 text-green-600 dark:text-green-400",
-      pink: "from-pink-50 to-pink-100 dark:from-pink-900/20 dark:to-pink-800/20 text-pink-600 dark:text-pink-400",
-      indigo:
-        "from-indigo-50 to-indigo-100 dark:from-indigo-900/20 dark:to-indigo-800/20 text-indigo-600 dark:text-indigo-400",
-      yellow:
-        "from-yellow-50 to-yellow-100 dark:from-yellow-900/20 dark:to-yellow-800/20 text-yellow-600 dark:text-yellow-400",
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "system";
+    setActiveTheme(savedTheme);
+    handleThemeChange(savedTheme);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+      if (
+        themeRef.current &&
+        !themeRef.current.contains(event.target as Node)
+      ) {
+        setIsThemeOpen(false);
+      }
+      if (
+        socialRef.current &&
+        !socialRef.current.contains(event.target as Node)
+      ) {
+        setIsSocialOpen(false);
+      }
     };
-    return (
-      colorMap[color as keyof typeof colorMap] ||
-      "from-neutral-50 to-neutral-100 dark:from-neutral-800/20 dark:to-neutral-700/20 text-neutral-600 dark:text-neutral-400"
-    );
-  };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Responsive dropdown position
+  const dropdownPosition =
+    typeof window !== "undefined" && window.innerWidth < 640
+      ? "left-1/2 -translate-x-1/2 right-auto"
+      : "right-0";
+
+  // Filtered nav items for search
+  const filteredNavItems = menuItems.filter((item) =>
+    item.label.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <>
-      {/* Top Bar - Hides on scroll */}
-      <motion.div
-        initial={{ y: 0 }}
-        animate={{ y: isScrolled ? -100 : 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 transition-colors duration-200"
-      >
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Search Box */}
-            <div className="flex-1 max-w-md">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full pl-10 pr-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400 transition-colors duration-200"
-                />
-                <Icon
-                  icon="lucide:search"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4"
-                />
-              </div>
-            </div>
+      {/* Top Right Navigation & Switchers */}
+      <div className="fixed top-4 right-4 flex items-center gap-3 sm:gap-4 z-40">
+        {/* Logo Button (Home) */}
+        <Link
+          href="/"
+          className="p-2 rounded-lg bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center"
+          title="Ana Sayfa"
+        >
+          <Image
+            src="/logos/logo250.png"
+            alt="Poyraz"
+            width={24}
+            height={24}
+            className="rounded-full"
+          />
+        </Link>
 
-            {/* Logo */}
-            <div className="flex-1 flex justify-center">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/logos/logo250.png"
-                  alt="Logo"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto"
-                />
-              </Link>
-            </div>
-
-            {/* Login Button */}
-            <div className="flex-1 flex justify-end">
-              <Button
-                onClick={handleLoginClick}
-                variant="primary"
-                size="md"
-                icon="lucide:user"
-                iconPosition="left"
-                className="bg-primary hover:bg-primary/90 text-white border-0"
-              >
-                Login
-              </Button>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Navigation Links - Always visible when scrolled */}
-      <nav
-        className={`fixed left-0 right-0 z-40 bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 transition-all duration-300 ${
-          isScrolled ? "top-0 shadow-md" : "top-24"
-        }`}
-      >
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between h-14">
-            {/* Mobile Logo - Only visible on mobile */}
-            <div className="md:hidden">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/logos/logo250.png"
-                  alt="Logo"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto"
-                />
-              </Link>
-            </div>
-
-            {/* Left Side - Navigation Links - Hidden on mobile */}
-            <div className="hidden md:flex items-center space-x-8">
-              {menuItems.map((item) => (
-                <div key={item.label} className="relative">
-                  {item.hasDropdown ? (
-                    <button
-                      onClick={() => handleDropdownClick(item.label)}
-                      className="flex items-center gap-1 text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
-                    >
-                      {item.label}
-                      <Icon
-                        icon="lucide:chevron-down"
-                        className={`w-4 h-4 transition-transform duration-200 ${
-                          activeDropdown === item.label ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className="text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200"
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Right Side - Social Links and Theme Switcher - Hidden on mobile */}
-            <div className="hidden md:flex items-center space-x-4">
-              {/* Social Links Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => handleDropdownClick("social")}
-                  className="flex items-center gap-1 text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 cursor-pointer p-2"
-                  title="Social Media"
-                >
-                  <Icon icon="lucide:share-2" className="w-5 h-5" />
-                  <Icon
-                    icon="lucide:chevron-down"
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      activeDropdown === "social" ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Theme Switcher */}
-              <div className="relative">
-                <button
-                  onClick={() => handleDropdownClick("theme")}
-                  className="flex items-center gap-1 text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors duration-200 cursor-pointer p-2"
-                  title="Theme"
-                >
-                  <Icon icon="lucide:palette" className="w-5 h-5" />
-                  <Icon
-                    icon="lucide:chevron-down"
-                    className={`w-3 h-3 transition-transform duration-200 ${
-                      activeDropdown === "theme" ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-              </div>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <button
-                onClick={toggleMobileMenu}
-                className="flex items-center justify-center w-10 h-10 text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors duration-200"
-                aria-label="Toggle mobile menu"
-              >
-                <Icon
-                  icon={isMobileMenuOpen ? "lucide:x" : "lucide:menu"}
-                  className="w-6 h-6"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Dropdown Menus */}
-        <AnimatePresence>
-          {activeDropdown && (
-            <>
-              {/* Backdrop */}
-              <div
-                className="fixed inset-0 bg-transparent z-30 hidden md:block"
-                onClick={closeDropdown}
-              />
-
-              {/* Dropdown Content */}
+        {/* Navigation Dropdown */}
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => {
+              setIsMenuOpen(!isMenuOpen);
+              setIsThemeOpen(false);
+              setIsSocialOpen(false);
+            }}
+            className="p-2 rounded-lg bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer"
+          >
+            <Icon
+              icon="hugeicons:menu-01"
+              className="text-neutral-600 dark:text-neutral-300 w-6 h-6"
+            />
+          </button>
+          <AnimatePresence>
+            {isMenuOpen && (
               <motion.div
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                variants={dropdownVariants}
-                transition={{ duration: 0.3 }}
-                className="absolute top-full left-0 w-screen bg-white dark:bg-dark-bg border-b border-neutral-200 dark:border-neutral-700 z-40 transition-colors duration-200 hidden md:block"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2 }}
+                className={`absolute mt-2 bg-white dark:bg-neutral-800 rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-700 p-2 min-w-[240px] max-h-[70vh] overflow-y-auto ${dropdownPosition}`}
               >
-                <div className="container mx-auto px-4 py-8">
-                  {activeDropdown === "theme" ? (
-                    // Theme Dropdown
-                    <div className="flex justify-center">
-                      <div className="grid grid-cols-3 gap-4 w-full">
-                        {themeOptions.map((themeOption) => (
-                          <button
-                            key={themeOption.value}
-                            onClick={() => handleThemeChange(themeOption.value)}
-                            className={`bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer ${
-                              theme === themeOption.value ||
-                              (themeOption.value === "system" &&
-                                !["light", "dark"].includes(theme))
-                                ? "ring-2 ring-primary bg-primary/5"
-                                : ""
-                            }`}
-                          >
-                            <Icon
-                              icon={themeOption.icon}
-                              className="w-8 h-8 mx-auto mb-3"
-                            />
-                            <h4 className="font-semibold text-sm">
-                              {themeOption.label}
-                            </h4>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ) : activeDropdown === "social" ? (
-                    // Social Media Dropdown
-                    <div className="flex justify-center">
-                      <div className="grid grid-cols-4 gap-4 w-full">
-                        {socialLinks.map((social) => (
-                          <a
-                            key={social.label}
-                            href={social.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-700 text-neutral-600 dark:text-neutral-300 p-6 rounded-lg text-center hover:bg-primary hover:text-primary transition-all duration-200 cursor-pointer"
-                            onClick={closeDropdown}
-                          >
-                            <Icon
-                              icon={social.icon}
-                              className="w-8 h-8 mx-auto mb-3"
-                            />
-                            <h4 className="font-semibold text-sm">
-                              {social.label}
-                            </h4>
-                          </a>
-                        ))}
-                      </div>
+                {/* Search Bar */}
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center w-full bg-neutral-100 dark:bg-neutral-700 rounded-lg px-2 py-3">
+                    <Icon
+                      icon="hugeicons:search-01"
+                      className="w-5 h-5 text-neutral-400 dark:text-neutral-300 mr-2"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchValue}
+                      onChange={(e) => setSearchValue(e.target.value)}
+                      className="bg-transparent outline-none w-full text-sm text-neutral-700 dark:text-neutral-200 placeholder:text-neutral-400 dark:placeholder:text-neutral-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Menu Items */}
+                <div className="flex flex-col gap-1">
+                  {filteredNavItems.length === 0 ? (
+                    <div className="text-center text-xs text-neutral-400 py-2">
+                      No results found.
                     </div>
                   ) : (
-                    // Regular Menu Dropdown
-                    <div className="flex gap-8">
-                      {/* Left Side - Links */}
-                      <div className="flex-shrink-0">
-                        <div className="space-y-4">
-                          {menuItems
-                            .find((item) => item.label === activeDropdown)
-                            ?.dropdownItems?.map((dropdownItem) => (
-                              <div key={dropdownItem.label}>
-                                {dropdownItem.external ? (
-                                  <a
-                                    href={dropdownItem.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
-                                    onClick={closeDropdown}
-                                  >
-                                    <div className="flex items-center gap-2">
-                                      {dropdownItem.label}
-                                      <Icon
-                                        icon="lucide:external-link"
-                                        className="w-4 h-4"
-                                      />
-                                    </div>
-                                  </a>
-                                ) : (
-                                  <Link
-                                    href={dropdownItem.href}
-                                    className="block text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary font-medium transition-colors duration-200 cursor-pointer"
-                                    onClick={closeDropdown}
-                                  >
-                                    {dropdownItem.label}
-                                  </Link>
-                                )}
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-
-                      {/* Right Side - Cards */}
-                      <div className="flex-1 ml-8">
-                        <div className="grid grid-cols-3 gap-4">
-                          {dropdownCards[
-                            activeDropdown as keyof typeof dropdownCards
-                          ]?.map((card, index) => (
-                            <div
-                              key={index}
-                              className={`bg-gradient-to-br rounded ${getCardColorClasses(
-                                card.color
-                              )} p-6 text-center`}
-                            >
-                              <Icon
-                                icon={card.icon}
-                                className={`w-10 h-10 mx-auto mb-3 ${
-                                  card.color === "yellow"
-                                    ? "text-yellow-600"
-                                    : ""
+                    filteredNavItems.map((item) => {
+                      return (
+                        <div key={item.label} className="space-y-1">
+                          {/* Main Category Header - Bold, no icon */}
+                          <div className="px-2 py-2">
+                            <span className="text-sm font-bold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider">
+                              {item.label}
+                            </span>
+                          </div>
+                          {/* Dropdown Items with Icons */}
+                          {item.dropdownItems?.map((subItem) => {
+                            const isSubActive = pathname === subItem.href;
+                            return (
+                              <Link
+                                key={subItem.href}
+                                href={subItem.href}
+                                target={subItem.external ? "_blank" : "_self"}
+                                rel={
+                                  subItem.external
+                                    ? "noopener noreferrer"
+                                    : undefined
+                                }
+                                onClick={() => setIsMenuOpen(false)}
+                                className={`w-full p-2 pl-4 rounded-lg flex items-center gap-3 transition-all text-sm ${
+                                  isSubActive
+                                    ? "bg-neutral-50 dark:bg-neutral-900/20 text-neutral-600 dark:text-neutral-400"
+                                    : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700"
                                 }`}
-                              />
-                              <h4 className="font-semibold text-neutral-800 dark:text-neutral-200 text-sm mb-2">
-                                {card.title}
-                              </h4>
-                              <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                                {card.description}
-                              </p>
-                            </div>
-                          ))}
+                              >
+                                <Icon
+                                  icon={subItem.icon}
+                                  className="w-4 h-4 flex-shrink-0"
+                                />
+                                <span className="truncate">
+                                  {subItem.label}
+                                </span>
+                                {subItem.external && (
+                                  <Icon
+                                    icon="lucide:external-link"
+                                    className="w-3 h-3 flex-shrink-0"
+                                  />
+                                )}
+                              </Link>
+                            );
+                          })}
                         </div>
-                      </div>
-                    </div>
+                      );
+                    })
                   )}
                 </div>
               </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-      </nav>
+            )}
+          </AnimatePresence>
+        </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed inset-0 bg-white dark:bg-dark-bg z-50 md:hidden"
+        {/* Theme Switcher */}
+        <div className="relative" ref={themeRef}>
+          <button
+            onClick={() => {
+              setIsThemeOpen(!isThemeOpen);
+              setIsMenuOpen(false);
+              setIsSocialOpen(false);
+            }}
+            className="p-2 rounded-lg bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer"
           >
-            {/* Mobile Menu Header */}
-            <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-700">
-              <Link href="/" onClick={closeMobileMenu}>
-                <Image
-                  src="/logos/logo250.png"
-                  alt="Logo"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto"
-                />
-              </Link>
-              <button
-                onClick={closeMobileMenu}
-                className="p-2 text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors duration-200"
+            <Icon
+              icon={
+                activeTheme === "dark"
+                  ? "mdi:weather-night"
+                  : activeTheme === "light"
+                  ? "mdi:weather-sunny"
+                  : "mdi:monitor"
+              }
+              className="text-neutral-600 dark:text-neutral-300 w-5 h-5"
+            />
+          </button>
+          <AnimatePresence>
+            {isThemeOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 mt-2 bg-white dark:bg-neutral-800 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 p-2 min-w-[180px]"
               >
-                <Icon icon="lucide:x" className="w-6 h-6" />
-              </button>
-            </div>
+                {themeOptions.map((theme) => (
+                  <button
+                    key={theme.value}
+                    onClick={() => handleThemeChange(theme.value)}
+                    className={`w-full p-2 rounded-lg flex items-center gap-3 transition-all ${
+                      activeTheme === theme.value
+                        ? "bg-neutral-50 dark:bg-neutral-900/20 text-neutral-600 dark:text-neutral-400"
+                        : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                    }`}
+                  >
+                    <Icon icon={theme.icon} className="w-5 h-5" />
+                    <span className="text-sm font-medium">{theme.label}</span>
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-            {/* Mobile Menu Content */}
-            <div className="flex flex-col h-full">
-              {!mobileSubmenuOpen ? (
-                // Main Menu
-                <div className="flex-1 overflow-y-auto">
-                  <div className="p-6 space-y-6">
-                    {/* Navigation Links */}
-                    <div className="space-y-4">
-                      {menuItems.map((item) => (
-                        <div key={item.label}>
-                          {item.hasDropdown ? (
-                            <button
-                              onClick={() => openMobileSubmenu(item.label)}
-                              className="flex items-center justify-between w-full text-left text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
-                            >
-                              {item.label}
-                              <Icon
-                                icon="lucide:chevron-right"
-                                className="w-5 h-5"
-                              />
-                            </button>
-                          ) : (
-                            <Link
-                              href={item.href}
-                              onClick={closeMobileMenu}
-                              className="block text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
-                            >
-                              {item.label}
-                            </Link>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Theme Switcher */}
-                    <div className="border-t border-neutral-200 dark:border-neutral-700 pt-6">
-                      <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-4">
-                        Theme
-                      </h3>
-                      <div className="grid grid-cols-3 gap-3">
-                        {themeOptions.map((themeOption) => (
-                          <button
-                            key={themeOption.value}
-                            onClick={() => handleThemeChange(themeOption.value)}
-                            className={`flex flex-col items-center p-4 rounded-lg border-2 transition-all duration-200 ${
-                              theme === themeOption.value ||
-                              (themeOption.value === "system" &&
-                                !["light", "dark"].includes(theme))
-                                ? "border-primary bg-primary/5 text-primary"
-                                : "border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400"
-                            }`}
-                          >
-                            <Icon
-                              icon={themeOption.icon}
-                              className="w-6 h-6 mb-2"
-                            />
-                            <span className="text-sm font-medium">
-                              {themeOption.label}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Social Links */}
-                    <div className="border-t border-neutral-200 dark:border-neutral-700 pt-6">
-                      <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-4">
-                        Follow Me
-                      </h3>
-                      <div className="grid grid-cols-3 gap-3">
-                        {socialLinks.slice(0, 6).map((social) => (
-                          <a
-                            key={social.label}
-                            href={social.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex flex-col items-center p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:text-primary hover:border-primary transition-all duration-200"
-                          >
-                            <Icon icon={social.icon} className="w-6 h-6 mb-2" />
-                            <span className="text-xs font-medium">
-                              {social.label}
-                            </span>
-                          </a>
-                        ))}
-                      </div>
-                      {socialLinks.length > 6 && (
-                        <div className="mt-3">
-                          <a
-                            href={socialLinks[6].href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center p-4 rounded-lg border border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 hover:text-primary hover:border-primary transition-all duration-200"
-                          >
-                            <Icon
-                              icon={socialLinks[6].icon}
-                              className="w-6 h-6 mr-2"
-                            />
-                            <span className="text-sm font-medium">
-                              {socialLinks[6].label}
-                            </span>
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                // Submenu
-                <div className="flex-1 overflow-y-auto">
-                  <div className="p-6">
-                    {/* Submenu Header */}
-                    <div className="flex items-center mb-6">
-                      <button
-                        onClick={closeMobileSubmenu}
-                        className="mr-4 p-2 -m-2 text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors duration-200"
-                      >
-                        <Icon icon="lucide:arrow-left" className="w-6 h-6" />
-                      </button>
-                      <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
-                        {mobileSubmenuOpen}
-                      </h2>
-                    </div>
-
-                    {/* Submenu Links */}
-                    <div className="space-y-4">
-                      {menuItems
-                        .find((item) => item.label === mobileSubmenuOpen)
-                        ?.dropdownItems?.map((dropdownItem) => (
-                          <div key={dropdownItem.label}>
-                            {dropdownItem.external ? (
-                              <a
-                                href={dropdownItem.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-between text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
-                                onClick={closeMobileMenu}
-                              >
-                                <span>{dropdownItem.label}</span>
-                                <Icon
-                                  icon="lucide:external-link"
-                                  className="w-5 h-5"
-                                />
-                              </a>
-                            ) : (
-                              <Link
-                                href={dropdownItem.href}
-                                onClick={closeMobileMenu}
-                                className="block text-lg font-medium text-neutral-700 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors duration-200 py-3"
-                              >
-                                {dropdownItem.label}
-                              </Link>
-                            )}
-                          </div>
-                        ))}
-                    </div>
-
-                    {/* Submenu Cards */}
-                    <div className="mt-8 space-y-4">
-                      {dropdownCards[
-                        mobileSubmenuOpen as keyof typeof dropdownCards
-                      ]?.map((card, index) => (
-                        <div
-                          key={index}
-                          className={`bg-gradient-to-br rounded-lg ${getCardColorClasses(
-                            card.color
-                          )} p-6`}
-                        >
-                          <div className="flex items-center mb-3">
-                            <Icon
-                              icon={card.icon}
-                              className={`w-8 h-8 mr-3 ${
-                                card.color === "yellow" ? "text-yellow-600" : ""
-                              }`}
-                            />
-                            <h4 className="font-semibold text-neutral-800 dark:text-neutral-200">
-                              {card.title}
-                            </h4>
-                          </div>
-                          <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                            {card.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Spacer to prevent content from being hidden under navbar */}
-      <div
-        className={`${
-          isScrolled ? "h-[72px]" : "h-[168px]"
-        } transition-all duration-300`}
-      ></div>
+        {/* Social Media Links */}
+        <div className="relative" ref={socialRef}>
+          <button
+            onClick={() => {
+              setIsSocialOpen(!isSocialOpen);
+              setIsThemeOpen(false);
+              setIsMenuOpen(false);
+            }}
+            className="p-2 rounded-lg bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer"
+          >
+            <Icon
+              icon="mdi:share-variant"
+              className="text-neutral-600 dark:text-neutral-300 w-5 h-5"
+            />
+          </button>
+          <AnimatePresence>
+            {isSocialOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-0 mt-2 bg-white dark:bg-neutral-800 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 p-2 min-w-[200px]"
+              >
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsSocialOpen(false)}
+                    className="w-full p-2 rounded-lg flex items-center gap-3 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all"
+                    title={link.label}
+                  >
+                    <Icon icon={link.icon} className="w-5 h-5" />
+                    <span className="text-sm font-medium">{link.label}</span>
+                  </a>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </>
   );
 };
