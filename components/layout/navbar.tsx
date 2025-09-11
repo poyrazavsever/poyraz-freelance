@@ -219,7 +219,7 @@ const Navbar = () => {
             className="p-2 rounded-lg bg-white/90 dark:bg-neutral-800/90 backdrop-blur-md border border-neutral-200 dark:border-neutral-700 shadow-sm hover:shadow-lg transition-all duration-200 cursor-pointer"
           >
             <Icon
-              icon="hugeicons:menu-01"
+              icon="hugeicons:more"
               className="text-neutral-600 dark:text-neutral-300 w-6 h-6"
             />
           </button>
