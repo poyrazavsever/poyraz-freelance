@@ -58,7 +58,7 @@ const HowIWork = () => {
   ];
 
   return (
-    <section className="sm:py-0 bg-neutral-50 dark:bg-neutral-900/50 min-h-screen flex items-start justify-start">
+    <section className="sm:py-0 bg-neutral-50 dark:bg-neutral-900/50 flex items-start justify-start">
       <div className="container mx-auto px-4 py-24">
         <motion.div
           variants={containerVariants}
