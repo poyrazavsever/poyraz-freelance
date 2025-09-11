@@ -1,64 +1,124 @@
 "use client";
 import React from "react";
-import { Icon } from "@iconify/react";
-
-const testimonials = [
-  {
-    name: "Ayşe Yılmaz",
-    text: "Poyraz ile çalışmak harikaydı. Hızlı teslimat ve kaliteli iş!",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    rating: 5,
-  },
-  {
-    name: "Mehmet Demir",
-    text: "Tasarım ve yazılım konusunda çok yetenekli. Kesinlikle tavsiye ederim.",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    rating: 5,
-  },
-  {
-    name: "Elif Kaya",
-    text: "İletişimi çok iyi, her aşamada bilgilendirdi.",
-    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
-    rating: 4,
-  },
-];
+import { motion } from "framer-motion";
 
 const References = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
+
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      text: "Working with Poyraz was amazing. Fast delivery and high quality work!",
+      company: "TechStart Inc.",
+      rating: 5,
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+      name: "Michael Chen",
+      text: "Very talented in design and development. I definitely recommend him.",
+      company: "InnovateCorp",
+      rating: 5,
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+      name: "Emily Davis",
+      text: "Excellent communication, kept me informed at every stage.",
+      company: "GrowthLab",
+      rating: 5,
+      avatar:
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face",
+    },
+    {
+      name: "David Rodriguez",
+      text: "Professional approach and attention to detail. Great results!",
+      company: "StartupX",
+      rating: 5,
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    },
+  ];
+
   return (
-    <section className="py-16 bg-white dark:bg-dark-bg">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <h2 className="text-4xl lg:text-5xl font-bold text-dark-bg dark:text-white mb-10 text-center">
-          Referanslar
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((ref) => (
-            <div
-              key={ref.name}
-              className="bg-gradient-to-br from-primary/10 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 rounded-xl border border-primary/20 dark:border-primary/10 p-6 flex flex-col items-center text-center"
-            >
-              <img
-                src={ref.avatar}
-                alt={ref.name}
-                className="w-16 h-16 rounded-full mb-4 object-cover"
-              />
-              <h3 className="text-lg font-bold text-dark-bg dark:text-white mb-2">
-                {ref.name}
-              </h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
-                {ref.text}
-              </p>
-              <div className="flex gap-1">
-                {[...Array(ref.rating)].map((_, i) => (
-                  <Icon
-                    key={i}
-                    icon="lucide:star"
-                    className="w-5 h-5 text-primary"
+    <section className="py-24 sm:py-0 bg-white dark:bg-dark-bg min-h-screen flex items-start justify-start">
+      <div className="container mx-auto px-4 pt-24">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="max-w-6xl"
+        >
+          {/* Main Content - Left Aligned */}
+          <motion.div variants={itemVariants} className="max-w-2xl mb-12">
+            <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-6">
+              Client References
+            </h2>
+            <p className="text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              What my clients say about working with me. Real feedback from real
+              projects.
+            </p>
+          </motion.div>
+
+          {/* Testimonials */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.name}
+                variants={itemVariants}
+                className="border-l-4 border-primary pl-6 py-4"
+              >
+                <div className="flex items-start space-x-4">
+                  <img
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0 border-2 border-primary/20"
                   />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+                  <div>
+                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4 italic">
+                      "{testimonial.text}"
+                    </p>
+                    <div>
+                      <h4 className="font-semibold text-neutral-900 dark:text-white">
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        {testimonial.company}
+                      </p>
+                      <div className="flex items-center mt-2">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <span key={i} className="text-primary text-lg">
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
