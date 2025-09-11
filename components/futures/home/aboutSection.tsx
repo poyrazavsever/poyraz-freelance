@@ -137,7 +137,7 @@ const AboutSection = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 variant="primary"
-                size="lg"
+                size="md"
                 icon="lucide:user"
                 iconPosition="left"
               >
@@ -145,7 +145,7 @@ const AboutSection = () => {
               </Button>
               <Button
                 variant="outline"
-                size="lg"
+                size="md"
                 icon="lucide:download"
                 iconPosition="left"
               >
