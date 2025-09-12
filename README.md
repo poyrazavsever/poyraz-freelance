@@ -38,12 +38,25 @@ The goal is to create a comprehensive solution that helps freelancers showcase t
   - Animated statistics and call-to-action buttons
   - Gradient backgrounds with floating elements
 
+- **Complete Support System**
+
+  - Contact page with multiple communication methods
+  - FAQ page with categorized questions and accordion interface
+  - Help Center with resource categories and quick actions
+  - Policies page with privacy policy, terms of service, and refund policy
+
+- **Under Development Pages**
+
+  - Offer Request system (currently shows under construction with contact redirect)
+  - AboutMe page with professional introduction and skills showcase
+
 - **Design System**
 
   - Custom color palette with primary color (#ffbd59)
-  - Consistent typography and spacing
+  - Consistent left-aligned typography following AboutMe pattern
   - Dark mode support with proper color schemes
-  - Animation system using Framer Motion
+  - Animation system using Framer Motion with staggered entrance effects
+  - Shared button component system with multiple variants
 
 - **Corporate Footer**
   - Comprehensive link structure
@@ -146,6 +159,11 @@ pnpm start
 freelance-poyraz/
 ├── app/                          # Next.js App Router
 │   ├── (site)/                   # Site layout group
+│   │   ├── contact/             # Contact page with forms and methods
+│   │   ├── faq/                 # FAQ page with accordion interface
+│   │   ├── help-center/         # Help center with resources and categories
+│   │   ├── policies/            # Legal policies and terms
+│   │   └── offer-request/       # Offer request (under development)
 │   ├── favicon.ico
 │   ├── globals.css
 │   ├── layout.tsx
@@ -155,13 +173,17 @@ freelance-poyraz/
 │   │   ├── navbar.tsx           # Navigation with mobile support
 │   │   └── footer.tsx           # Corporate footer
 │   ├── shared/                   # Shared components
-│   │   └── button.tsx           # Button component system
+│   │   └── button.tsx           # Advanced button component system
 │   └── futures/                  # Feature-specific components
-│       └── home/
-│           └── heroSection.tsx   # Landing page hero
+│       ├── home/
+│       │   └── heroSection.tsx   # Landing page hero
+│       └── about/
+│           └── aboutMe.tsx       # About section with skills
 ├── public/                       # Static assets
 │   ├── images/
 │   └── logos/
+│       ├── logo250.png
+│       └── logo500.png
 ├── next.config.ts               # Next.js configuration
 ├── tailwind.config.js           # Tailwind CSS configuration
 ├── tsconfig.json               # TypeScript configuration
@@ -182,16 +204,18 @@ freelance-poyraz/
 The project uses a systematic approach to typography with:
 
 - Consistent font weights (400, 500, 600, 700)
-- Responsive font sizes
+- Left-aligned content following AboutMe design pattern
+- Responsive font sizes with proper hierarchy
 - Proper line heights and letter spacing
 - Dark mode optimized colors
 
 ### Components
 
-- **Button System**: Multiple variants (primary, secondary, outline, ghost, gradient)
-- **Animation System**: Consistent motion patterns using Framer Motion
-- **Icon System**: Comprehensive icons from Iconify
+- **Button System**: Multiple variants (primary, secondary, outline, ghost, gradient) with animations
+- **Animation System**: Consistent motion patterns using Framer Motion with staggered effects
+- **Icon System**: Comprehensive icons from Hugeicons and Iconify
 - **Toast System**: Custom styled notifications
+- **Support Pages**: Complete set including Contact, FAQ, Help Center, and Policies
 
 ## Development Guidelines
 
