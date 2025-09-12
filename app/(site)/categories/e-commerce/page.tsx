@@ -27,7 +27,6 @@ const ECommerce = () => {
     },
   };
 
-
   const services = [
     {
       icon: "hugeicons:shopping-cart-01",
@@ -55,6 +54,13 @@ const ECommerce = () => {
     },
   ];
 
+  const projects = [
+    {
+      id: 1,
+      name: "Urun Uncu - E-commerce Store",
+      href: "https://urununcu.com",
+    },
+  ];
   return (
     <section className="py-24 sm:py-0 bg-white dark:bg-dark-bg min-h-screen flex items-start justify-start">
       <div className="container mx-auto px-4 pt-24">
@@ -96,6 +102,45 @@ const ECommerce = () => {
               >
                 View Stores
               </Button>
+            </div>
+          </motion.div>
+
+          {/* Active E-commerce Projects */}
+          <motion.div variants={itemVariants} className="max-w-4xl mb-16">
+            <div className="border-l-4 border-primary pl-6 py-4 mb-8">
+              <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-2">
+                Active E-Commerce Projects
+              </h3>
+              <p className="text-neutral-600 dark:text-neutral-400">
+                Ongoing e-commerce projects
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {projects?.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center bg-neutral-10 dark:bg-neutral-800/10 rounded-lg border border-neutral-400 dark:border-neutral-800 hover:border-primary/30 dark:hover:border-primary/30 transition-colors"
+                >
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-neutral-900 w-full p-4 dark:text-white hover:text-primary transition-colors flex items-center justify-between gap-2"
+                  >
+                    {project.name}
+                    <span>
+                      <Icon
+                        icon="hugeicons:link-02"
+                        className="text-sm opacity-60"
+                      />
+                    </span>
+                  </a>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
