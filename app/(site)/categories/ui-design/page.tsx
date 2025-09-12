@@ -286,14 +286,13 @@ const UiDesign = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            className="relative max-w-4xl w-full max-h-[90vh] bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden"
+            className="relative max-w-xl w-full bg-white dark:bg-neutral-900 rounded-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-700">
               <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
-                Project {selectedGallery.id} - {currentImageIndex + 1} of{" "}
-                {selectedGallery.images.length}
+                {currentImageIndex + 1} of {selectedGallery.images.length}
               </h3>
               <button
                 onClick={closeGallery}
@@ -304,7 +303,7 @@ const UiDesign = () => {
             </div>
 
             {/* Image Container */}
-            <div className="relative aspect-video bg-neutral-50 dark:bg-neutral-800">
+            <div className="relative aspect-square bg-neutral-50 dark:bg-neutral-800">
               <img
                 src={selectedGallery.images[currentImageIndex]}
                 alt={`Project ${selectedGallery.id} - Image ${
@@ -335,7 +334,7 @@ const UiDesign = () => {
             {/* Thumbnail Navigation */}
             {selectedGallery.images.length > 1 && (
               <div className="p-4 border-t border-neutral-200 dark:border-neutral-700">
-                <div className="flex gap-2 overflow-x-auto">
+                <div className="flex gap-2 overflow-x-auto pb-2">
                   {selectedGallery.images.map((image, index) => (
                     <button
                       key={index}
