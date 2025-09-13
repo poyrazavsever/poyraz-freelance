@@ -81,7 +81,7 @@ const Footer = () => {
     {
       icon: "hugeicons:maps-square-02",
       label: "Location",
-      value: "Ankara / Yenimahalle, Turkey",
+      value: "Ankara, Turkey",
       href: "#",
     },
     {
